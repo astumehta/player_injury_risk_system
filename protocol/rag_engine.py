@@ -11,7 +11,10 @@ AI-Assisted Player Health and Injury Risk System
 import os
 import re
 
-PROTOCOL_PATH = "/Users/astumehta/.gemini/antigravity/scratch/player_injury_risk_system/protocol/club_load_protocol.md"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROTOCOL_PATH = os.path.join(BASE_DIR, "protocol", "club_load_protocol.md")
+if not os.path.exists(PROTOCOL_PATH):
+    PROTOCOL_PATH = os.path.join(BASE_DIR, "team_assets", "protocol.md")
 
 class ProtocolEngine:
     def __init__(self, protocol_path=PROTOCOL_PATH):

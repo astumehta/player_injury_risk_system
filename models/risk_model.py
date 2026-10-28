@@ -12,7 +12,8 @@ import joblib
 import numpy as np
 import pandas as pd
 
-MODEL_PATH = "/Users/astumehta/.gemini/antigravity/scratch/player_injury_risk_system/models/model.pkl"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MODEL_PATH = os.path.join(BASE_DIR, "models", "model.pkl")
 
 class PlayerRiskEngine:
     def __init__(self, model_path=MODEL_PATH):

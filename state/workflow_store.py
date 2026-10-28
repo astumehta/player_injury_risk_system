@@ -11,7 +11,8 @@ import json
 import os
 from datetime import datetime
 
-STORE_PATH = "/Users/astumehta/.gemini/antigravity/scratch/player_injury_risk_system/data/signoff_store.json"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STORE_PATH = os.path.join(BASE_DIR, "data", "signoff_store.json")
 
 class WorkflowStore:
     def __init__(self, store_path=STORE_PATH):
