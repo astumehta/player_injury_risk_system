@@ -1,0 +1,343 @@
+import json
+import os
+import shutil
+
+notebook = {
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# ⚽ Harbourline FC — Official Injury Early-Warning Logistic Regression Model\n",
+        "### Foundations of AI for Business | Group Project 4 (Healthcare) | Group A1\n",
+        "**Author:** Astu Mehta (10289708)  \n",
+        "**Club:** Harbourline Football Club (Premier League Performance Analytics)  \n",
+        "\n",
+        "---\n",
+        "\n",
+        "## 📋 Project & Dataset Specifications\n",
+        "This notebook trains an **interpretable, clinical-grade Logistic Regression classifier** directly on the official **Harbourline FC Season Dataset** (`player_weeks.csv`).\n",
+        "\n",
+        "### 📌 Dataset Core Metadata:\n",
+        "- **Source:** Harbourline FC GPS micro-technology (Catapult/STATSports tracking), daily morning medical screening questionnaires, and official Premier League match appearance records.\n",
+        "- **Size:** **2,400 player-weeks** across **60 professional squad players** (Squad A senior first team and Squad B developmental squad) over **22 columns**.\n",
+        "- **Active Training Size:** **2,077 player-weeks** (after filtering out 323 weeks where players were already out with an existing injury).\n",
+        "- **Time Period:** Full **40-week competitive football season** (Weeks 1 to 40), seeded with 4 pre-season conditioning weeks.\n",
+        "- **Target Variable (`injury_next_7d`):** Binary classification label (1 if the player sustained a new time-loss soft-tissue strain within the next 7 days, 0 otherwise). Total **94 observed injuries** across 37 players (**4.53% active incidence rate**, matching UEFA Elite Club Injury Studies).\n",
+        "  - Breakdown by injury type: *Hamstring (25), Calf (23), Ankle (20), Groin (13), Knee ligament (9), Lower back (4)*.\n",
+        "\n",
+        "### 🧹 Data Cleaning & Preprocessing Pipeline:\n",
+        "1. **Out-of-Action Sidelining Exclusion:** Weeks where `availability == 'out'` are excluded because an already injured athlete is not at risk of sustaining an initial training-induced strain.\n",
+        "2. **Target Leakage Elimination:** Post-event outcome attributes (`injury_type` and `weeks_out`) are strictly dropped from the predictor feature set.\n",
+        "3. **Group-Aware Splitting:** We use `GroupShuffleSplit` on `player_id` (80% train / 20% test: 48 train players / 12 test players) so no athlete's rows leak across training and test sets.\n",
+        "4. **Clinical Feature Engineering:**\n",
+        "   - Non-linear Workload Splines: Acute-to-Chronic Workload Ratio spikes `max(0, ACWR - 1.30)` and detraining under-loading `max(0, 0.80 - ACWR)`.\n",
+        "   - Cumulative 3-Week Sleep Debt: Scaled rolling deficit over 21 days `(deficit / 10.0)`.\n",
+        "   - Recovery Flags: Delayed-onset muscle soreness spike `max(0, Soreness - 4)` and low wellness warning `(wellness <= 4)`.\n",
+        "   - Clinical History & Tactical Position: Prior soft-tissue strain count and one-hot position offsets (GK, MID, FWD with DEF as baseline)."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": None,
+      "metadata": {},
+      "outputs": [],
+      "source": [
+        "# Step 1: Install & Import Required Libraries\n",
+        "import warnings\n",
+        "warnings.filterwarnings('ignore')\n",
+        "\n",
+        "import numpy as np\n",
+        "import pandas as pd\n",
+        "import matplotlib.pyplot as plt\n",
+        "import joblib\n",
+        "\n",
+        "from sklearn.linear_model import LogisticRegression\n",
+        "from sklearn.model_selection import GroupShuffleSplit\n",
+        "from sklearn.metrics import (\n",
+        "    roc_auc_score, roc_curve, accuracy_score, \n",
+        "    classification_report, confusion_matrix\n",
+        ")\n",
+        "\n",
+        "print('✅ Libraries imported successfully!')"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## 1. Load & Inspect Harbourline FC Season Dataset\n",
+        "Download or load `player_weeks.csv` (2,400 player-weeks)."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": None,
+      "metadata": {},
+      "outputs": [],
+      "source": [
+        "# Step 2: Load the Official 2,400 Player-Week Dataset\n",
+        "import os\n",
+        "csv_filename = 'player_weeks.csv'\n",
+        "\n",
+        "if not os.path.exists(csv_filename):\n",
+        "    for fallback in [\n",
+        "        '/Users/astumehta/.gemini/antigravity/scratch/player_injury_risk_system/team_assets/player_weeks.csv',\n",
+        "        '/Users/astumehta/.gemini/antigravity/scratch/player_injury_risk_system/data/harbourline_player_weeks.csv',\n",
+        "        'data/harbourline_player_weeks.csv'\n",
+        "    ]:\n",
+        "        if os.path.exists(fallback):\n",
+        "            csv_filename = fallback\n",
+        "            break\n",
+        "\n",
+        "df = pd.read_csv(csv_filename)\n",
+        "print(f'📊 Total Rows: {len(df)} | Columns: {len(df.columns)}')\n",
+        "print(f'👥 Squad Size: {df[\"player_id\"].nunique()} players across {df[\"week\"].max()} competitive weeks.')\n",
+        "print(f'🏥 Sidelined Rows (availability == out): {(df[\"availability\"] == \"out\").sum()}')\n",
+        "df.head()"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## 2. Data Cleaning & Feature Engineering\n",
+        "1. Filter out weeks where athlete is already injured (`availability != 'out'`).\n",
+        "2. Exclude post-injury outcome columns (`injury_type`, `weeks_out`).\n",
+        "3. Engineer the 11 clinical features."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": None,
+      "metadata": {},
+      "outputs": [],
+      "source": [
+        "# Step 3: Cleaning & Feature Engineering\n",
+        "df_active = df[df['availability'] != 'out'].copy()\n",
+        "n_injuries = int(df_active['injury_next_7d'].sum())\n",
+        "print(f'🧹 Active Exposure Weeks: {len(df_active)} rows ({n_injuries} injuries observed, {n_injuries/len(df_active)*100:.2f}% incidence)')\n",
+        "\n",
+        "def build_features(d):\n",
+        "    X = pd.DataFrame(index=d.index)\n",
+        "    X['acwr_spike'] = np.maximum(0.0, d['acwr'] - 1.30)\n",
+        "    X['acwr_detraining'] = np.maximum(0.0, 0.80 - d['acwr'])\n",
+        "    X['prior_injuries'] = d['prior_injuries'].astype(float)\n",
+        "    X['soreness_spike'] = np.maximum(0.0, d['soreness'] - 4.0).astype(float)\n",
+        "    X['sleep_deficit'] = np.maximum(0.0, 7.0 - d['sleep_hours']).astype(float)\n",
+        "    \n",
+        "    if 'sleep_debt_3w' in d.columns:\n",
+        "        X['sleep_debt_3w'] = (d['sleep_debt_3w'] / 10.0).astype(float)\n",
+        "    else:\n",
+        "        sleep_diff = np.maximum(0.0, 8.0 - d['sleep_hours'])\n",
+        "        X['sleep_debt_3w'] = (sleep_diff * 7.0) / 10.0\n",
+        "        \n",
+        "    X['age_term'] = np.maximum(0.0, d['age'] - 26).astype(float)\n",
+        "    X['wellness_low'] = (d['wellness'] <= 4).astype(float)\n",
+        "    X['is_returning'] = (d['availability'] == 'modified').astype(float)\n",
+        "    X['pos_gk'] = (d['position'] == 'GK').astype(float)\n",
+        "    X['pos_mid'] = (d['position'] == 'MID').astype(float)\n",
+        "    X['pos_fwd'] = (d['position'] == 'FWD').astype(float)\n",
+        "    return X\n",
+        "\n",
+        "X = build_features(df_active)\n",
+        "y = df_active['injury_next_7d'].astype(int)\n",
+        "groups = df_active['player_id']\n",
+        "\n",
+        "print('✅ Engineered Feature Matrix:')\n",
+        "print(list(X.columns))"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## 3. Group-Aware Train / Test Split & Logistic Regression Fitting"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": None,
+      "metadata": {},
+      "outputs": [],
+      "source": [
+        "# Step 4: GroupShuffleSplit (80% Train / 20% Test by Player)\n",
+        "gss = GroupShuffleSplit(n_splits=1, test_size=0.20, random_state=42)\n",
+        "train_idx, test_idx = next(gss.split(X, y, groups))\n",
+        "\n",
+        "X_train, X_test = X.iloc[train_idx], X.iloc[test_idx]\n",
+        "y_train, y_test = y.iloc[train_idx], y.iloc[test_idx]\n",
+        "\n",
+        "print(f'Training set: {len(X_train)} rows ({y_train.sum()} injuries across {groups.iloc[train_idx].nunique()} players)')\n",
+        "print(f'Testing set:  {len(X_test)} rows ({y_test.sum()} injuries across {groups.iloc[test_idx].nunique()} held-out players)')\n",
+        "\n",
+        "model = LogisticRegression(solver='liblinear', random_state=42, C=1.0)\n",
+        "model.fit(X_train, y_train)\n",
+        "print('🎉 Logistic Regression Model successfully fitted!')"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## 4. Evaluation Metrics & ROC Curve"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": None,
+      "metadata": {},
+      "outputs": [],
+      "source": [
+        "# Step 5: Evaluate Model on Held-Out Test Set\n",
+        "y_prob = model.predict_proba(X_test)[:, 1]\n",
+        "auc = roc_auc_score(y_test, y_prob)\n",
+        "acc = accuracy_score(y_test, (y_prob >= 0.15).astype(int))\n",
+        "\n",
+        "print(f'🎯 Test ROC-AUC Score: {auc:.4f} (~{auc*100:.1f}%)')\n",
+        "print(f'🎯 Test Accuracy:     {acc * 100:.2f}%')\n",
+        "print(f'🎯 Base Intercept (b0): {model.intercept_[0]:.4f}')\n",
+        "\n",
+        "fpr, tpr, _ = roc_curve(y_test, y_prob)\n",
+        "plt.figure(figsize=(7, 4.5))\n",
+        "plt.plot(fpr, tpr, color='#00ff87', lw=2.5, label=f'Logistic Regression (AUC = {auc:.3f})')\n",
+        "plt.plot([0, 1], [0, 1], color='#94a3b8', linestyle='--')\n",
+        "plt.title('ROC Curve — Harbourline FC Season Model', fontsize=13, fontweight='bold')\n",
+        "plt.xlabel('False Positive Rate')\n",
+        "plt.ylabel('True Positive Rate')\n",
+        "plt.legend(loc='lower right')\n",
+        "plt.grid(True, alpha=0.3)\n",
+        "plt.show()"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## 5. Learned Model Weights & Sports Science Odds Ratios"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": None,
+      "metadata": {},
+      "outputs": [],
+      "source": [
+        "# Step 6: Interpret Mathematical Parameters & Odds Ratios\n",
+        "coefs = model.coef_[0]\n",
+        "feature_names = X.columns.tolist()\n",
+        "odds_ratios = np.exp(coefs)\n",
+        "\n",
+        "weights_df = pd.DataFrame({\n",
+        "    'Factor / Parameter': feature_names,\n",
+        "    'Learned Weight (w_i)': np.round(coefs, 4),\n",
+        "    'Odds Ratio exp(w_i)': [f'{or_val:.3f}x' for or_val in odds_ratios],\n",
+        "    'Clinical Impact': [\n",
+        "        'Steep load spike (>1.30) multiplies muscle strain',\n",
+        "        'Under-loading detraining causes fitness loss',\n",
+        "        'Scar tissue: previous strains elevate future tear risk',\n",
+        "        'Physical symptom of muscle micro-damage',\n",
+        "        'Weekly sleep deficit impairs neural reaction & recovery',\n",
+        "        'Chronic fatigue compounding over multiple weeks',\n",
+        "        'Older muscle tissue repairs slower post-match',\n",
+        "        'Non-load stressors (illness, mental distress, travel)',\n",
+        "        'Returning athletes vulnerable in first 2 weeks back',\n",
+        "        'Goalkeepers run less distance (protective factor)',\n",
+        "        'Midfielders accumulate high chronic match distance',\n",
+        "        'Forwards perform high-velocity explosive sprints'\n",
+        "    ]\n",
+        "})\n",
+        "print(weights_df.to_string(index=False))"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## 6. Live Inference on the 60 Senior Squad Players (Connecting to Website)\n",
+        "We now apply the trained model to all 60 players at Week 40."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": None,
+      "metadata": {},
+      "outputs": [],
+      "source": [
+        "# Step 7: Apply Model to 60 Squad Players at Week 40\n",
+        "latest_60 = df.sort_values('week').groupby('player_id').last().reset_index()\n",
+        "X_60 = build_features(latest_60)\n",
+        "probs_60 = model.predict_proba(X_60)[:, 1]\n",
+        "\n",
+        "tiers, statuses = [], []\n",
+        "for p in probs_60:\n",
+        "    if p >= 0.15:\n",
+        "        tiers.append('🔴 HIGH RISK')\n",
+        "        statuses.append(\"Can't Train / Benched\")\n",
+        "    elif p >= 0.05:\n",
+        "        tiers.append('🟡 MODERATE RISK')\n",
+        "        statuses.append('Need Some Help / Modified')\n",
+        "    else:\n",
+        "        tiers.append('🟢 LOW RISK')\n",
+        "        statuses.append('Available to Train')\n",
+        "\n",
+        "latest_60['Predicted Risk (%)'] = np.round(probs_60 * 100, 1)\n",
+        "latest_60['Risk Tier'] = tiers\n",
+        "latest_60['Coach Status'] = statuses\n",
+        "\n",
+        "print('🎯 SQUAD BREAKDOWN AT WEEK 40 (60 PLAYERS):')\n",
+        "print(latest_60['Coach Status'].value_counts().to_string())\n",
+        "\n",
+        "print('\\n🔍 SAMPLE SQUAD BENCHMARKS (Low, Moderate, High):')\n",
+        "sample_pids = ['P046', 'P001', 'P004', 'P014', 'P051']\n",
+        "print(latest_60[latest_60['player_id'].isin(sample_pids)][['player_id', 'position', 'acwr', 'soreness', 'sleep_hours', 'wellness', 'Predicted Risk (%)', 'Risk Tier', 'Coach Status']].to_string(index=False))"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## 7. Export Model Bundle for Streamlit Web App"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": None,
+      "metadata": {},
+      "outputs": [],
+      "source": [
+        "# Step 8: Save Model Artifact\n",
+        "bundle = {\n",
+        "    'model': model,\n",
+        "    'feature_names': feature_names,\n",
+        "    'intercept': float(model.intercept_[0]),\n",
+        "    'weights': dict(zip(feature_names, [float(c) for c in coefs])),\n",
+        "    'metrics': {'roc_auc': float(auc), 'accuracy': float(acc)}\n",
+        "}\n",
+        "try:\n",
+        "    joblib.dump(bundle, 'harbourline_logistic_season.pkl')\n",
+        "    print(\"💾 Model successfully saved to 'harbourline_logistic_season.pkl'!\")\n",
+        "except Exception as e:\n",
+        "    print(f'⚠️ Saved in memory ({e})')\n",
+        "print('🎉 Google Colab training completed successfully!')"
+      ]
+    }
+  ],
+  "metadata": {
+    "language_info": {"name": "python"}
+  },
+  "nbformat": 4,
+  "nbformat_minor": 4
+}
+
+out_path = '/Users/astumehta/.gemini/antigravity/scratch/player_injury_risk_system/notebooks/Harbourline_Injury_Model_Season_Colab.ipynb'
+with open(out_path, 'w') as f:
+    json.dump(notebook, f, indent=2)
+
+shutil.copy(out_path, '/Users/astumehta/.gemini/antigravity/scratch/player_injury_risk_system/notebooks/Harbourline_Injury_Model_1000_Colab.ipynb')
+shutil.copy(out_path, '/Users/astumehta/.gemini/antigravity/brain/4720e091-5ab6-4a72-8442-2a361fdff2f1/Harbourline_Injury_Model_Season_Colab.ipynb')
+shutil.copy(out_path, '/Users/astumehta/.gemini/antigravity/brain/4720e091-5ab6-4a72-8442-2a361fdff2f1/Harbourline_Injury_Model_1000_Colab.ipynb')
+
+shutil.copy('/Users/astumehta/.gemini/antigravity/scratch/player_injury_risk_system/data/harbourline_player_weeks.csv', '/Users/astumehta/.gemini/antigravity/scratch/player_injury_risk_system/data/player_weeks.csv')
+shutil.copy('/Users/astumehta/.gemini/antigravity/scratch/player_injury_risk_system/data/harbourline_player_weeks.csv', '/Users/astumehta/.gemini/antigravity/brain/4720e091-5ab6-4a72-8442-2a361fdff2f1/player_weeks.csv')
+print('Successfully generated notebook and synced player_weeks.csv!')

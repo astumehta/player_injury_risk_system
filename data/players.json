@@ -1,0 +1,542 @@
+[
+  {
+    "player_id": "PL-001",
+    "name": "Player 1",
+    "squad": "First Team Squad",
+    "position": "Midfielder",
+    "age": 22,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2495.7
+  },
+  {
+    "player_id": "PL-002",
+    "name": "Player 2",
+    "squad": "First Team Squad",
+    "position": "Forward",
+    "age": 26,
+    "prior_injuries": 1,
+    "chronic_baseline_load": 2703.2
+  },
+  {
+    "player_id": "PL-003",
+    "name": "Player 3",
+    "squad": "First Team Squad",
+    "position": "Forward",
+    "age": 23,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2242.4
+  },
+  {
+    "player_id": "PL-004",
+    "name": "Player 4",
+    "squad": "First Team Squad",
+    "position": "Midfielder",
+    "age": 17,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2685.1
+  },
+  {
+    "player_id": "PL-005",
+    "name": "Player 5",
+    "squad": "First Team Squad",
+    "position": "Defender",
+    "age": 24,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2177.3
+  },
+  {
+    "player_id": "PL-006",
+    "name": "Player 6",
+    "squad": "First Team Squad",
+    "position": "Midfielder",
+    "age": 23,
+    "prior_injuries": 1,
+    "chronic_baseline_load": 2579.3
+  },
+  {
+    "player_id": "PL-007",
+    "name": "Player 7",
+    "squad": "First Team Squad",
+    "position": "Midfielder",
+    "age": 26,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2245.4
+  },
+  {
+    "player_id": "PL-008",
+    "name": "Player 8",
+    "squad": "First Team Squad",
+    "position": "Forward",
+    "age": 23,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2684.2
+  },
+  {
+    "player_id": "PL-009",
+    "name": "Player 9",
+    "squad": "First Team Squad",
+    "position": "Defender",
+    "age": 22,
+    "prior_injuries": 1,
+    "chronic_baseline_load": 2351.5
+  },
+  {
+    "player_id": "PL-010",
+    "name": "Player 10",
+    "squad": "First Team Squad",
+    "position": "Forward",
+    "age": 25,
+    "prior_injuries": 1,
+    "chronic_baseline_load": 2516.8
+  },
+  {
+    "player_id": "PL-011",
+    "name": "Player 11",
+    "squad": "First Team Squad",
+    "position": "Midfielder",
+    "age": 35,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2758.1
+  },
+  {
+    "player_id": "PL-012",
+    "name": "Player 12",
+    "squad": "First Team Squad",
+    "position": "Goalkeeper",
+    "age": 26,
+    "prior_injuries": 3,
+    "chronic_baseline_load": 2664.5
+  },
+  {
+    "player_id": "PL-013",
+    "name": "Player 13",
+    "squad": "First Team Squad",
+    "position": "Forward",
+    "age": 22,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 1925.0
+  },
+  {
+    "player_id": "PL-014",
+    "name": "Player 14",
+    "squad": "First Team Squad",
+    "position": "Defender",
+    "age": 21,
+    "prior_injuries": 1,
+    "chronic_baseline_load": 2135.8
+  },
+  {
+    "player_id": "PL-015",
+    "name": "Player 15",
+    "squad": "First Team Squad",
+    "position": "Forward",
+    "age": 28,
+    "prior_injuries": 1,
+    "chronic_baseline_load": 2666.3
+  },
+  {
+    "player_id": "PL-016",
+    "name": "Player 16",
+    "squad": "First Team Squad",
+    "position": "Defender",
+    "age": 25,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2213.0
+  },
+  {
+    "player_id": "PL-017",
+    "name": "Player 17",
+    "squad": "First Team Squad",
+    "position": "Defender",
+    "age": 20,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2729.9
+  },
+  {
+    "player_id": "PL-018",
+    "name": "Player 18",
+    "squad": "First Team Squad",
+    "position": "Midfielder",
+    "age": 30,
+    "prior_injuries": 1,
+    "chronic_baseline_load": 2130.5
+  },
+  {
+    "player_id": "PL-019",
+    "name": "Player 19",
+    "squad": "First Team Squad",
+    "position": "Defender",
+    "age": 22,
+    "prior_injuries": 1,
+    "chronic_baseline_load": 2377.3
+  },
+  {
+    "player_id": "PL-020",
+    "name": "Player 20",
+    "squad": "First Team Squad",
+    "position": "Defender",
+    "age": 31,
+    "prior_injuries": 1,
+    "chronic_baseline_load": 2501.5
+  },
+  {
+    "player_id": "PL-021",
+    "name": "Player 21",
+    "squad": "First Team Squad",
+    "position": "Midfielder",
+    "age": 24,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2381.7
+  },
+  {
+    "player_id": "PL-022",
+    "name": "Player 22",
+    "squad": "First Team Squad",
+    "position": "Forward",
+    "age": 21,
+    "prior_injuries": 1,
+    "chronic_baseline_load": 2712.7
+  },
+  {
+    "player_id": "PL-023",
+    "name": "Player 23",
+    "squad": "First Team Squad",
+    "position": "Goalkeeper",
+    "age": 24,
+    "prior_injuries": 2,
+    "chronic_baseline_load": 1951.5
+  },
+  {
+    "player_id": "PL-024",
+    "name": "Player 24",
+    "squad": "First Team Squad",
+    "position": "Forward",
+    "age": 25,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2271.9
+  },
+  {
+    "player_id": "PL-025",
+    "name": "Player 25",
+    "squad": "First Team Squad",
+    "position": "Goalkeeper",
+    "age": 27,
+    "prior_injuries": 2,
+    "chronic_baseline_load": 2747.5
+  },
+  {
+    "player_id": "PL-026",
+    "name": "Player 26",
+    "squad": "First Team Squad",
+    "position": "Defender",
+    "age": 30,
+    "prior_injuries": 2,
+    "chronic_baseline_load": 2452.7
+  },
+  {
+    "player_id": "PL-027",
+    "name": "Player 27",
+    "squad": "First Team Squad",
+    "position": "Midfielder",
+    "age": 25,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2289.7
+  },
+  {
+    "player_id": "PL-028",
+    "name": "Player 28",
+    "squad": "First Team Squad",
+    "position": "Defender",
+    "age": 17,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2503.7
+  },
+  {
+    "player_id": "PL-029",
+    "name": "Player 29",
+    "squad": "First Team Squad",
+    "position": "Forward",
+    "age": 27,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2350.2
+  },
+  {
+    "player_id": "PL-030",
+    "name": "Player 30",
+    "squad": "First Team Squad",
+    "position": "Midfielder",
+    "age": 22,
+    "prior_injuries": 3,
+    "chronic_baseline_load": 2821.2
+  },
+  {
+    "player_id": "PL-031",
+    "name": "Player 31",
+    "squad": "First Team Squad",
+    "position": "Goalkeeper",
+    "age": 25,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 1897.9
+  },
+  {
+    "player_id": "PL-032",
+    "name": "Player 32",
+    "squad": "First Team Squad",
+    "position": "Midfielder",
+    "age": 26,
+    "prior_injuries": 1,
+    "chronic_baseline_load": 2270.2
+  },
+  {
+    "player_id": "PL-033",
+    "name": "Player 33",
+    "squad": "U23 Reserve Squad",
+    "position": "Forward",
+    "age": 20,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2322.3
+  },
+  {
+    "player_id": "PL-034",
+    "name": "Player 34",
+    "squad": "U23 Reserve Squad",
+    "position": "Forward",
+    "age": 20,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2397.8
+  },
+  {
+    "player_id": "PL-035",
+    "name": "Player 35",
+    "squad": "U23 Reserve Squad",
+    "position": "Defender",
+    "age": 18,
+    "prior_injuries": 1,
+    "chronic_baseline_load": 2631.9
+  },
+  {
+    "player_id": "PL-036",
+    "name": "Player 36",
+    "squad": "U23 Reserve Squad",
+    "position": "Midfielder",
+    "age": 22,
+    "prior_injuries": 1,
+    "chronic_baseline_load": 2817.7
+  },
+  {
+    "player_id": "PL-037",
+    "name": "Player 37",
+    "squad": "U23 Reserve Squad",
+    "position": "Forward",
+    "age": 19,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2676.9
+  },
+  {
+    "player_id": "PL-038",
+    "name": "Player 38",
+    "squad": "U23 Reserve Squad",
+    "position": "Forward",
+    "age": 23,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2662.1
+  },
+  {
+    "player_id": "PL-039",
+    "name": "Player 39",
+    "squad": "U23 Reserve Squad",
+    "position": "Midfielder",
+    "age": 21,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2033.1
+  },
+  {
+    "player_id": "PL-040",
+    "name": "Player 40",
+    "squad": "U23 Reserve Squad",
+    "position": "Defender",
+    "age": 21,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2351.7
+  },
+  {
+    "player_id": "PL-041",
+    "name": "Player 41",
+    "squad": "U23 Reserve Squad",
+    "position": "Midfielder",
+    "age": 19,
+    "prior_injuries": 1,
+    "chronic_baseline_load": 2566.8
+  },
+  {
+    "player_id": "PL-042",
+    "name": "Player 42",
+    "squad": "U23 Reserve Squad",
+    "position": "Defender",
+    "age": 22,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 3161.7
+  },
+  {
+    "player_id": "PL-043",
+    "name": "Player 43",
+    "squad": "U23 Reserve Squad",
+    "position": "Forward",
+    "age": 17,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2757.2
+  },
+  {
+    "player_id": "PL-044",
+    "name": "Player 44",
+    "squad": "U23 Reserve Squad",
+    "position": "Defender",
+    "age": 21,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2765.1
+  },
+  {
+    "player_id": "PL-045",
+    "name": "Player 45",
+    "squad": "U23 Reserve Squad",
+    "position": "Forward",
+    "age": 20,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2654.2
+  },
+  {
+    "player_id": "PL-046",
+    "name": "Player 46",
+    "squad": "U23 Reserve Squad",
+    "position": "Forward",
+    "age": 20,
+    "prior_injuries": 1,
+    "chronic_baseline_load": 2034.9
+  },
+  {
+    "player_id": "PL-047",
+    "name": "Player 47",
+    "squad": "U23 Reserve Squad",
+    "position": "Defender",
+    "age": 21,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2113.7
+  },
+  {
+    "player_id": "PL-048",
+    "name": "Player 48",
+    "squad": "U23 Reserve Squad",
+    "position": "Midfielder",
+    "age": 21,
+    "prior_injuries": 2,
+    "chronic_baseline_load": 2780.5
+  },
+  {
+    "player_id": "PL-049",
+    "name": "Player 49",
+    "squad": "U23 Reserve Squad",
+    "position": "Defender",
+    "age": 18,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2443.8
+  },
+  {
+    "player_id": "PL-050",
+    "name": "Player 50",
+    "squad": "U23 Reserve Squad",
+    "position": "Midfielder",
+    "age": 21,
+    "prior_injuries": 1,
+    "chronic_baseline_load": 2328.1
+  },
+  {
+    "player_id": "PL-051",
+    "name": "Player 51",
+    "squad": "U23 Reserve Squad",
+    "position": "Defender",
+    "age": 24,
+    "prior_injuries": 1,
+    "chronic_baseline_load": 2428.1
+  },
+  {
+    "player_id": "PL-052",
+    "name": "Player 52",
+    "squad": "U23 Reserve Squad",
+    "position": "Forward",
+    "age": 18,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2693.2
+  },
+  {
+    "player_id": "PL-053",
+    "name": "Player 53",
+    "squad": "U23 Reserve Squad",
+    "position": "Defender",
+    "age": 19,
+    "prior_injuries": 3,
+    "chronic_baseline_load": 2622.1
+  },
+  {
+    "player_id": "PL-054",
+    "name": "Player 54",
+    "squad": "U23 Reserve Squad",
+    "position": "Goalkeeper",
+    "age": 19,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2633.1
+  },
+  {
+    "player_id": "PL-055",
+    "name": "Player 55",
+    "squad": "U23 Reserve Squad",
+    "position": "Defender",
+    "age": 18,
+    "prior_injuries": 1,
+    "chronic_baseline_load": 2246.1
+  },
+  {
+    "player_id": "PL-056",
+    "name": "Player 56",
+    "squad": "U23 Reserve Squad",
+    "position": "Goalkeeper",
+    "age": 21,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2928.9
+  },
+  {
+    "player_id": "PL-057",
+    "name": "Player 57",
+    "squad": "U23 Reserve Squad",
+    "position": "Defender",
+    "age": 21,
+    "prior_injuries": 1,
+    "chronic_baseline_load": 2415.4
+  },
+  {
+    "player_id": "PL-058",
+    "name": "Player 58",
+    "squad": "U23 Reserve Squad",
+    "position": "Defender",
+    "age": 18,
+    "prior_injuries": 0,
+    "chronic_baseline_load": 2814.6
+  },
+  {
+    "player_id": "PL-059",
+    "name": "Player 59",
+    "squad": "U23 Reserve Squad",
+    "position": "Defender",
+    "age": 20,
+    "prior_injuries": 3,
+    "chronic_baseline_load": 2477.2
+  },
+  {
+    "player_id": "PL-060",
+    "name": "Player 60",
+    "squad": "U23 Reserve Squad",
+    "position": "Midfielder",
+    "age": 22,
+    "prior_injuries": 1,
+    "chronic_baseline_load": 2402.2
+  }
+]

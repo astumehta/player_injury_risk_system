@@ -1,0 +1,72 @@
+"""
+Harbourline FC — Official Player Roster Directory
+Provides realistic player names, numbers, positions, and tactical roles
+for all 60 Senior Squad players (Squad A and Squad B).
+"""
+
+PLAYER_ROSTER = {
+    "P001": {"name": "Alistair Vance", "number": 1, "role": "Starting Goalkeeper (Vice Captain)"},
+    "P002": {"name": "Liam Henderson", "number": 2, "role": "Right Wing-Back"},
+    "P003": {"name": "Ethan Ward", "number": 3, "role": "Left Full-Back"},
+    "P004": {"name": "Marcus Sterling", "number": 4, "role": "First-Choice Center-Back"},
+    "P005": {"name": "Tariq Al-Mansoor", "number": 5, "role": "Commanding Center-Back"},
+    "P006": {"name": "David Kalu", "number": 6, "role": "Explosive Left-Back"},
+    "P007": {"name": "Jack Davies", "number": 7, "role": "Right Inverted Winger"},
+    "P008": {"name": "Jordan Hughes", "number": 8, "role": "Box-to-Box Engine (CM)"},
+    "P009": {"name": "Oliver Shaw", "number": 9, "role": "Target Striker (#9)"},
+    "P010": {"name": "Noah Campbell", "number": 10, "role": "Chief Playmaker (CAM)"},
+    "P011": {"name": "Cameron Brooks", "number": 11, "role": "Pacy Left Winger"},
+    "P012": {"name": "Ben Taylor", "number": 12, "role": "Cup Goalkeeper"},
+    "P013": {"name": "Kofi Mensah", "number": 13, "role": "Sweeper Center-Back"},
+    "P014": {"name": "Mateo Silva", "number": 14, "role": "Deep-Lying Playmaker (DLP)"},
+    "P015": {"name": "Declan Ross", "number": 15, "role": "Stopper Full-Back"},
+    "P016": {"name": "Mason Clarke", "number": 16, "role": "Defensive Ball-Winner (CDM)"},
+    "P017": {"name": "Finnian O'Shea", "number": 17, "role": "Aerial Center-Back"},
+    "P018": {"name": "Samuel Adebayo", "number": 18, "role": "Dynamic Forward"},
+    "P019": {"name": "Harvey Ellis", "number": 19, "role": "Advanced Midfielder"},
+    "P020": {"name": "Aaron Baxter", "number": 20, "role": "Experienced Midfield Anchor"},
+    "P021": {"name": "Caleb Thorne", "number": 21, "role": "Right Full-Back"},
+    "P022": {"name": "Dominic Price", "number": 22, "role": "Pressing Attacking Mid"},
+    "P023": {"name": "Harrison Cole", "number": 23, "role": "Utility Defender"},
+    "P024": {"name": "George Bailey", "number": 24, "role": "Overlapping Wing-Back"},
+    "P025": {"name": "Lucas Morales", "number": 25, "role": "Inside Forward"},
+    "P026": {"name": "Finlay Morris", "number": 26, "role": "Pacey Center-Back"},
+    "P027": {"name": "Elijah King", "number": 27, "role": "Central Midfielder"},
+    "P028": {"name": "Nico Van Dijk", "number": 28, "role": "Aggressive Center-Back"},
+    "P029": {"name": "Oscar Palmer", "number": 29, "role": "Wide Playmaker"},
+    "P030": {"name": "Toby Adams", "number": 30, "role": "Third Choice Goalkeeper"},
+    "P031": {"name": "Archie Wilson", "number": 31, "role": "Squad B Starting Keeper"},
+    "P032": {"name": "Lewis Martin", "number": 32, "role": "Academy Right-Back"},
+    "P033": {"name": "Reuben Foster", "number": 33, "role": "Ball-Playing Defender"},
+    "P034": {"name": "Kian Cooper", "number": 34, "role": "Aggressive Tackler (CDM)"},
+    "P035": {"name": "Elliot Powell", "number": 35, "role": "Developing Center-Back"},
+    "P036": {"name": "Isaac Bennett", "number": 36, "role": "Wing-Back (Squad B)"},
+    "P037": {"name": "Zachary Wood", "number": 37, "role": "Technical Midfielder"},
+    "P038": {"name": "Gabriel Santos", "number": 38, "role": "Dribbling Winger"},
+    "P039": {"name": "Alexander Scott", "number": 39, "role": "Center Forward"},
+    "P040": {"name": "Max Fletcher", "number": 40, "role": "Central Midfield Prospect"},
+    "P041": {"name": "Jude Harrison", "number": 41, "role": "Left-Side Attacker"},
+    "P042": {"name": "Flynn Graham", "number": 42, "role": "Reserve Goalkeeper"},
+    "P043": {"name": "Theo Marshall", "number": 43, "role": "Squad B Center-Back"},
+    "P044": {"name": "Jayden Kelly", "number": 44, "role": "Physical Midfielder"},
+    "P045": {"name": "Rory Gallagher", "number": 45, "role": "Tenacious Full-Back"},
+    "P046": {"name": "Lucas Wright", "number": 46, "role": "Academy Wonderkid (CAM)"},
+    "P047": {"name": "Adam Simpson", "number": 47, "role": "Pacey Striker"},
+    "P048": {"name": "Corey Evans", "number": 48, "role": "Youth Center-Back"},
+    "P049": {"name": "Bradley Hayes", "number": 49, "role": "Speed Winger"},
+    "P050": {"name": "Nathan Chapman", "number": 50, "role": "Holding Midfield Prospect"},
+    "P051": {"name": "Callum O'Connor", "number": 51, "role": "Clinical Poacher / Striker"},
+    "P052": {"name": "Ronan Byrne", "number": 52, "role": "Technical Attacking Mid"},
+    "P053": {"name": "Miles Gibson", "number": 53, "role": "Versatile Defender"},
+    "P054": {"name": "Ewan Murray", "number": 54, "role": "Cross-Specialist Full-Back"},
+    "P055": {"name": "Daniel Crawford", "number": 55, "role": "Power Striker"},
+    "P056": {"name": "Jamie Walsh", "number": 56, "role": "Direct Winger"},
+    "P057": {"name": "Leon Kennedy", "number": 57, "role": "Central Box-to-Box"},
+    "P058": {"name": "Aidan Doyle", "number": 58, "role": "Squad B Sweeper Keeper"},
+    "P059": {"name": "Sonny Bell", "number": 59, "role": "Youth Center-Back"},
+    "P060": {"name": "Freddie Fox", "number": 60, "role": "Creative Wide Forward"}
+}
+
+def get_player_display_info(pid, position=""):
+    info = PLAYER_ROSTER.get(pid, {"name": f"Player {pid}", "number": int(pid[1:]) if pid[1:].isdigit() else 99, "role": f"{position} Player"})
+    return info

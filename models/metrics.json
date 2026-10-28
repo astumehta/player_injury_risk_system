@@ -1,0 +1,129 @@
+{
+  "test_size_weeks": 720,
+  "test_players": 18,
+  "total_test_injuries": 27,
+  "models": {
+    "baseline": {
+      "name": "Baseline: ACWR > 1.5",
+      "precision": 0.19,
+      "recall": 0.52,
+      "flags": 74,
+      "missed": 13,
+      "auc": 0.67,
+      "estimated_financial_loss_inr": 8100000
+    },
+    "logistic_regression_top_15pct": {
+      "name": "Logistic Regression (Top 15% Recall Tuned)",
+      "precision": 0.17,
+      "recall": 0.67,
+      "flags": 108,
+      "missed": 9,
+      "auc": 0.81,
+      "threshold": 0.6073,
+      "estimated_financial_loss_inr": 5850000
+    },
+    "logistic_regression_top_60": {
+      "name": "Logistic Regression (Top 60 Flags Fixed)",
+      "precision": 0.23,
+      "recall": 0.52,
+      "flags": 60,
+      "missed": 13,
+      "auc": 0.81,
+      "threshold": 0.7323,
+      "estimated_financial_loss_inr": 8030000
+    },
+    "gradient_boosting": {
+      "name": "Gradient Boosting (Top 15%)",
+      "precision": 0.15,
+      "recall": 0.59,
+      "flags": 108,
+      "missed": 11,
+      "auc": 0.8,
+      "estimated_financial_loss_inr": 7060000
+    }
+  },
+  "feature_importance": [
+    {
+      "feature": "prior_injuries",
+      "label": "Prior Soft-Tissue Injuries",
+      "coefficient": 0.4569,
+      "abs_impact": 0.4569
+    },
+    {
+      "feature": "chronic_load",
+      "label": "Chronic Baseline Load (AU)",
+      "coefficient": -0.4116,
+      "abs_impact": 0.4116
+    },
+    {
+      "feature": "acute_load",
+      "label": "Acute Workload (AU)",
+      "coefficient": 0.4074,
+      "abs_impact": 0.4074
+    },
+    {
+      "feature": "load_trend_3w",
+      "label": "3-Week Load Trend (%)",
+      "coefficient": 0.3986,
+      "abs_impact": 0.3986
+    },
+    {
+      "feature": "sleep_debt_3w",
+      "label": "3-Week Cumulative Sleep Debt (Hours)",
+      "coefficient": 0.3231,
+      "abs_impact": 0.3231
+    },
+    {
+      "feature": "avg_soreness_3w",
+      "label": "3-Week Average Soreness",
+      "coefficient": -0.194,
+      "abs_impact": 0.194
+    },
+    {
+      "feature": "wellness_score",
+      "label": "Composite Wellness Score",
+      "coefficient": -0.1807,
+      "abs_impact": 0.1807
+    },
+    {
+      "feature": "acwr",
+      "label": "Acute:Chronic Workload Ratio (ACWR)",
+      "coefficient": 0.1641,
+      "abs_impact": 0.1641
+    },
+    {
+      "feature": "soreness",
+      "label": "Muscle Soreness Rating",
+      "coefficient": 0.1623,
+      "abs_impact": 0.1623
+    },
+    {
+      "feature": "sleep_hours",
+      "label": "Sleep Duration (Hours)",
+      "coefficient": 0.128,
+      "abs_impact": 0.128
+    },
+    {
+      "feature": "age",
+      "label": "Player Age",
+      "coefficient": 0.1119,
+      "abs_impact": 0.1119
+    },
+    {
+      "feature": "match_minutes",
+      "label": "Match Minutes Played",
+      "coefficient": 0.0977,
+      "abs_impact": 0.0977
+    }
+  ],
+  "top_drivers": [
+    "Prior Soft-Tissue Injuries",
+    "Chronic Baseline Load (AU)",
+    "Acute Workload (AU)",
+    "3-Week Load Trend (%)"
+  ],
+  "cost_assumptions": {
+    "missed_injury_cost_inr": 600000,
+    "false_alarm_physio_cost_inr": 5000
+  }
+}

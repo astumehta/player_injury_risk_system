@@ -1,0 +1,94 @@
+{
+  "signoffs": {
+    "P001": {
+      "player_id": "P001",
+      "player_name": "Alistair Vance",
+      "squad": "A",
+      "decision_type": "DOCTOR_CALL",
+      "status": "CLEARED_FULL",
+      "clinical_reason": "model is wrong",
+      "doctor_name": "Dr. Astu Mehta, Medical Lead",
+      "coach_notes": "Full session as planned.",
+      "signed_at": "2026-10-28 19:48:25",
+      "original_risk_score": 6.4,
+      "original_risk_cat": "MODERATE RISK",
+      "top_drivers": [
+        "Acute load spike: ACWR of 1.64 is in the Red danger zone (>1.50)",
+        "Accumulated sleep debt: 21 hours below baseline over 3 weeks",
+        "Residual muscle soreness: 6/10 above baseline"
+      ]
+    }
+  },
+  "audit_log": [
+    {
+      "timestamp": "2026-10-28 19:48:25",
+      "event": "MEDICAL_SIGNOFF",
+      "player_id": "P001",
+      "decision": "DOCTOR_CALL",
+      "status": "CLEARED_FULL",
+      "doctor": "Dr. Astu Mehta, Medical Lead",
+      "reason": "model is wrong"
+    },
+    {
+      "timestamp": "2026-10-28 19:42:12",
+      "event": "RESET_ALL_SIGNOFFS",
+      "reason": "Reset to raw AI model baseline"
+    },
+    {
+      "timestamp": "2026-10-28 19:42:12",
+      "event": "MEDICAL_SIGNOFF",
+      "player_id": "P001",
+      "decision": "DOCTOR_CALL",
+      "status": "CLEARED_FULL",
+      "doctor": "Dr. Astu Mehta, Medical Lead",
+      "reason": "ai model is wrong"
+    },
+    {
+      "timestamp": "2026-10-28 19:40:05",
+      "event": "RESET_ALL_SIGNOFFS",
+      "reason": "Reset to raw AI model baseline"
+    },
+    {
+      "timestamp": "2026-10-28 19:40:05",
+      "event": "RESET_ALL_SIGNOFFS",
+      "reason": "Reset to raw AI model baseline"
+    },
+    {
+      "timestamp": "2026-10-28 19:40:04",
+      "event": "RESET_ALL_SIGNOFFS",
+      "reason": "Reset to raw AI model baseline"
+    },
+    {
+      "timestamp": "2026-10-28 19:36:18",
+      "event": "RESET_ALL_SIGNOFFS",
+      "reason": "Reset to raw AI model baseline"
+    },
+    {
+      "timestamp": "2026-10-28 17:36:39",
+      "event": "MEDICAL_SIGNOFF",
+      "player_id": "P049",
+      "decision": "DOCTOR_CALL",
+      "status": "CLEARED_MODIFIED",
+      "doctor": "Dr. Astu Mehta, Medical Lead",
+      "reason": "sleep better, show club doctor once"
+    },
+    {
+      "timestamp": "2026-10-28 17:19:25",
+      "event": "MEDICAL_SIGNOFF",
+      "player_id": "P004",
+      "decision": "DOCTOR_CALL",
+      "status": "CLEARED_FULL",
+      "doctor": "Dr. Astu Mehta, Medical Lead",
+      "reason": "cleared, give basic exercise"
+    },
+    {
+      "timestamp": "2026-10-28 17:16:56",
+      "event": "MEDICAL_SIGNOFF",
+      "player_id": "P006",
+      "decision": "DOCTOR_CALL",
+      "status": "CLEARED_FULL",
+      "doctor": "Dr. Astu Mehta, Medical Lead",
+      "reason": "no problem, go kick some ass"
+    }
+  ]
+}
